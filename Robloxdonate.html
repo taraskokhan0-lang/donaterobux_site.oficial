@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROB$MONEY — Premium Dashboard</title>
+    <style>
+        /* Надежный сброс стилей и качественные шрифты */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #07070c;
+            color: #ffffff;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Главная контентная панель */
+        .main-container {
+            width: 100%;
+            max-width: 850px;
+            background: linear-gradient(145deg, #13131f, #0c0c14);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        /* Шапка сайта */
+        .top-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .brand-logo {
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #ffffff, #a0a0b0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .user-balance-box {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .green-currency {
+            color: #00FF87;
+            font-weight: 800;
+            margin-left: 5px;
+            text-shadow: 0 0 10px rgba(0, 255, 135, 0.3);
+        }
+
+        /* Навигация по вкладкам */
+        .tabs-navigation {
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #8c8ca3;
+            padding: 14px 10px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Активное состояние кнопок */
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(0, 255, 135, 0.1), rgba(0, 255, 135, 0.02));
+            border-color: #00FF87;
+            color: #00FF87;
+            box-shadow: 0 0 15px rgba(0, 255, 135, 0.1);
+        }
+
+        /* Элементы контента вкладок */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ВКЛАДКА 1: PROFILE */
+        .profile-wrapper {
+            background: #11111a;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .profile-avatar-giant {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid #00FF87;
+            background-color: #07070c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 255, 135, 0.15);
+        }
+
+        .profile-avatar-giant span {
+            font-size: 40px;
+        }
+
+        .profile-nickname-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .profile-asterisk-login {
+            font-size: 14px;
+            color: #6c6c80;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .profile-info-grid {
+            display: flex;
+            gap: 15px;
+        }
+
+        .info-stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 14px 20px;
+            min-width: 170px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #6c6c80;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        /* ВКЛАДКА 2: DONATE (SEND) */
+        .grid-content {
+            display: flex;
+            gap: 25px;
+        }
+
+        .form-section {
+            flex: 1;
+            background: #11111a;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 25px;
+        }
+
+        .packages-section {
+            flex: 1.1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #5c5c70;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 11px;
+            color: #8c8ca3;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 14px;
+            background-color: #07070c;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #00FF87;
+        }
+
+        .btn-send {
+            width: 100%;
+            padding: 12px;
+            background-color: #1a1a26;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .search-menu-wrapper, .profile-preview-card, .pending-status-box {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .profile-preview-card {
+            align-items: center;
+            gap: 12px;
+            background-color: #07070c;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        .avatar-container {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #00FF87;
+        }
+
+        .pending-status-box {
+            background-color: rgba(255, 145, 0, 0.05);
+            border: 1px solid #ff9100;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 13px;
+            color: #ffd099;
+            line-height: 1.4;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #00FF87, #60EFFF);
+            border: none;
+            border-radius: 10px;
+            color: #07070c;
+            font-size: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 8px 20px rgba(0, 255, 135, 0.15);
+        }
+
+        /* Карточки предложений */
+        .package-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #11111a;
+            padding: 16px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .package-card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            background-color: #141420;
+        }
+
+        .package-card.selected {
+            border-color: #00FF87;
+            background: linear-gradient(90deg, rgba(0, 255, 135, 0.06), #11111a);
+        }
+
+        /* ВКЛАДКА 3: MY DONATE */
+        .donate-history-container {
+            background: #11111a;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background-color: #07070c;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+        }
+
+        .history-time {
+            font-size: 13px;
+            color: #8c8ca3;
+        }
+
+        .history-time.just-now {
+            color: #00FF87;
+            font-weight: 700;
+            text-shadow: 0 0 8px rgba(0, 255, 135, 0.2);
+        }
+
+        .history-amount {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        /* Адаптивный сдвиг для телефонов */
+        @media (max-width: 768px) {
+            .grid-content { flex-direction: column; }
+            .profile-wrapper { flex-direction: column; text-align: center; }
+            .profile-info-grid { flex-direction: column; width: 100%; }
+            .info-stat-card { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <header class="top-navbar">
+            <div class="brand-logo">ROB$MONEY</div>
+            <div class="user-balance-box">
+                Balance: <span>17,368,783</span><span class="green-currency">R$</span>
+            </div>
+        </header>
+
+        <nav class="tabs-navigation">
+            <button class="tab-btn active" onclick="openTab('panel-profile', this)">Profile</button>
+            <button class="tab-btn" onclick="openTab('panel-donate', this)">Donate (SEND)</button>
+            <button class="tab-btn" onclick="openTab('panel-mydonate', this)">My Donate</button>
+        </nav>
+
+        <div id="panel-profile" class="tab-content active">
+            <div class="profile-wrapper">
+                <div class="profile-avatar-giant">
+                    <span>👤</span>
+                </div>
+                <div>
+                    <h1 class="profile-nickname-title">Nimel0n</h1>
+                    <div class="profile-asterisk-login">n*******</div>
+                    
+                    <div class="profile-info-grid">
+                        <div class="info-stat-card">
+                            <div class="stat-label">Account Status</div>
+                            <div class="stat-value" style="color: #00FF87;">Premium User</div>
+                        </div>
+                        <div class="info-stat-card">
+                            <div class="stat-label">Robux Balance</div>
+                            <div class="stat-value">17,368,783 <span class="green-currency">R$</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="panel-donate" class="tab-content">
+            <div class="grid-content">
+                <section class="form-section">
+                    <h2 class="section-title">Order Details</h2>
+                    <form id="order-form">
+                        <div class="input-group">
+                            <label for="user-id">User ID</label>
+                            <input type="text" id="user-id" placeholder="Enter target ID" required>
+                        </div>
+
+                        <button type="button" class="btn-send" onclick="toggleSearch()">Send / Find User</button>
+
+                        <div class="search-menu-wrapper" id="search-menu">
+                            <div class="input-group">
+                                <label for="user-nickname">Search Nickname</label>
+                                <input type="text" id="user-nickname" oninput="filterPlayers(this.value)" placeholder="Type letters (e.g. luc, sam)...">
+                            </div>
+                            <div class="input-group">
+                                <label for="user-match">Matched Players</label>
+                                <select id="user-match" onchange="selectPlayer(this.value)">
+                                    <option value="">-- Choose User --</option>
+                                    <option value="p1">Mr_Lucifer (ID: 1333)</option>
+                                    <option value="p2">Cyber_Samurai (ID: 8841)</option>
+                                    <option value="p3">Neon_Cat (ID: 4402)</option>
+                                </select>
+                            </div>
+                            <div class="profile-preview-card" id="profile-card" style="display: flex;">
+                                <div class="avatar-container" id="avatar-col" style="background-color: #252535;"></div>
+                                <div>
+                                    <div style="font-weight: bold;" id="card-name">User</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pending-status-box" id="pending-box">
+                            <strong style="color: #ff9100;">⏱ Transaction Pending</strong><br>
+                            Success! Funds queued. Robux will arrive safely within 3-7 days.
+                        </div>
+
+                        <button type="submit" class="btn-action">Proceed Transaction</button>
+                    </form>
+                </section>
+
+                <section class="packages-section">
+                    <h2 class="section-title">Select Items</h2>
+                    <div class="package-card" onclick="selectAmount(1000, this)">
+                        <span style="font-weight: 700; font-size: 16px;">1,000 <span class="green-currency">R$</span></span>
+                        <span style="color: #8c8ca3; font-weight: 600; font-size: 14px;">600.00 UAH</span>
+                    </div>
+                    <div class="package-card" onclick="selectAmount(2500, this)">
+                        <span style="font-weight: 700; font-size: 16px;">2,500 <span class="green-currency">R$</span></span>
+                        <span style="color: #8c8ca3; font-weight: 600; font-size: 14px;">1,400.00 UAH</span>
+                    </div>
+                    <div class="package-card" onclick="selectAmount(5000, this)">
+                        <span style="font-weight: 700; font-size: 16px;">5,000 <span class="green-currency">R$</span></span>
+                        <span style="color: #8c8ca3; font-weight: 600; font-size: 14px;">2,700.00 UAH</span>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div id="panel-mydonate" class="tab-content">
+            <div class="donate-history-container" id="history-list">
+                <h2 class="section-title">Donation History</h2>
+                <div class="history-item">
+                    <span class="history-time">Недавно:</span>
+                    <span class="history-amount">2,000 <span class="green-currency">R$</span></span>
+                </div>
+                <div class="history-item">
+                    <span class="history-time">3 дня назад:</span>
+                    <span class="history-amount">15,500 <span class="green-currency">R$</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Стабильное и безотказное переключение вкладок
+        function openTab(tabId, buttonElement) {
+            var contents = document.getElementsByClassName('tab-content');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].style.display = 'none';
+            }
+            var buttons = document.getElementsByClassName('tab-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            document.getElementById(tabId).style.display = 'block';
+            buttonElement.classList.add('active');
+        }
+
+        // Переменные для поиска и отправки пакетов
+        var chosenAmount = 0;
+        var players = {
+            p1: { name: "Mr_Lucifer", id: "1333", color: "#ff4d4d" },
+            p2: { name: "Cyber_Samurai", id: "8841", color: "#00E676" },
+            p3: { name: "Neon_Cat", id: "4402", color: "#FFD600" }
+        };
+
+        function toggleSearch() {
+            var menu = document.getElementById('search-menu');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function filterPlayers(text) {
+            var val = text.toLowerCase();
+            var select = document.getElementById('user-match');
+            var opts = select.options;
+            var firstMatch = "";
+
+            for (var i = 1; i < opts.length; i++) {
+                if (opts[i].text.toLowerCase().indexOf(val) > -1) {
+                    opts[i].style.display = "block";
+                    if(!firstMatch) firstMatch = opts[i].value;
+                } else {
+                    opts[i].style.display = "none";
+                }
+            }
+            if(firstMatch) {
+                select.value = firstMatch;
+                selectPlayer(firstMatch);
+            }
+        }
+
+        function selectPlayer(val) {
+            var card = document.getElementById('profile-card');
+            if(players[val]) {
+                document.getElementById('card-name').textContent = players[val].name;
+                document.getElementById('user-id').value = players[val].id;
+                document.getElementById('avatar-col').style.backgroundColor = players[val].color;
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        }
+
+        function selectAmount(amount, element) {
+            var cards = document.getElementsByClassName('package-card');
+            for (var i = 0; i < cards.length; i++) {
+                cards[i].classList.remove('selected');
+            }
+            element.classList.add('selected');
+            chosenAmount = amount;
+        }
+
+        // Обработка формы и отправка доната в историю транзакций
+        document.getElementById('order-form').onsubmit = function(e) {
+            e.preventDefault();
+            if (chosenAmount === 0) {
+                alert('Пожалуйста, выберите пакет Robux в правой колонке!');
+                return;
+            }
+
+            document.getElementById('pending-box').style.display = 'block';
+
+            // Форматируем число (например: 5,000)
+            var formatted = chosenAmount.toLocaleString('en-US');
+
+            // Создаем новую запись для лога
+            var item = document.createElement('div');
+            item.className = 'history-item';
+            item.innerHTML = '<span class="history-time just-now">Только что:</span><span class="history-amou
